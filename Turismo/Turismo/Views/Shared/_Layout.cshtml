@@ -1,0 +1,297 @@
+﻿@using Turismo.Bean 
+@{ 
+    var usuario = Session["usuario"] as Usuario;
+
+    string display = "";
+
+    if (usuario != null) {
+        display = "none";
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom">
+            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/Home/Index"><img src="~/Img/logo.jpg" class="rounded float-left" style="width:156px;height:50px;" /></a></h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="/Home/Index">Inicio</a>
+                <a class="p-2 text-dark" href="/Paquete/Index">Paquetes turísticos</a>
+                <a class="btn btn-success" href="#" data-toggle="modal" data-target=".modal-registro" style="display:@display;">Registrarme</a>
+            </nav>
+            <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#modal-inicio" style="display:@display;">Ingresar</a>
+
+            @if (usuario != null)
+            {
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:block">@usuario.correo</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @if (usuario.idtipo_usuario == 2)
+                    {
+                        <a class="dropdown-item" href="~/Anuncio/Create">Crear anuncio</a>
+                        <a class="dropdown-item" href="~/Anuncio/List">Mis anuncios</a>
+                    }
+                    <a class="dropdown-item" href="#">Mis datos</a>
+                    <a class="dropdown-item" href="#">Mis paquetes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/Usuario/Logout">Cerrar sesión</a>
+                </div>
+            }
+        </div>
+    </header>
+    <main role="main">
+        @RenderBody()
+        <hr />
+        <footer class="container">
+            <p class="float-right">
+                <a href="#">Volver Arriba</a>
+            </p>
+            <p>
+                &copy; 2018 Cibertec &middot;
+                <a href="#">Privacy</a> &middot;
+                <a href="#">Terms</a>
+            </p>
+        </footer>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/holder")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/js/RegistroUsuarios.js"></script>
+    <script src="~/Scripts/js/InicioUsuarios.js"></script>
+    <script src="~/Scripts/js/CreateAnuncio.js"></script>
+    <script src="~/Scripts/js/ListAnuncios.js"></script>
+
+    <!--Modal Registro de usuario-->
+    <div class="modal fade modal-registro" id="modal-registro" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registro de usuarios</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" style="width:382px; text-align:center">
+                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Soy viajero</a>
+                        </li>
+                        <li class="nav-item" style="width:382px; text-align:center">
+                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Tour operador o Agencia de viaje</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <form id="form-viajero">
+                                            <input type="hidden" name="idregion" value="26" />
+                                            <input type="hidden" name="idtipo_usuario" value="1" />
+                                            <div class="form-group">
+                                                <label>Correo electrónico</label>
+                                                <input type="email" class="form-control" name="correo" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Clave</label>
+                                                <input type="password" class="form-control" minlength="6" pattern="[A-Za-z0-9]{6,}" title="Mínimo 6 dígitos entre números o letras." id="clave-viajero" name="clave" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Confirmar clave</label>
+                                                <input type="password" class="form-control" minlength="6" pattern="[A-Za-z0-9]{6,}" title="Mínimo 6 dígitos entre números o letras." id="confirma-clave-viajero" name="confirma-clave" required />
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="alert alert-success" role="alert" align="center" id="alert-success-viajero" style="display:none">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="alert alert-danger" role="alert" align="center" id="alert-danger-viajero" style="display:none">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-12" align="center">
+                                                    <input class="btn btn-default" type="reset" id="btn-cerrar-viajero" value="Cerrar" />
+                                                    <input class="btn btn-primary" type="submit" value="Guardar cambios" id="btnGuardar" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h8>Beneficios al registrarte:</h8><br /><br />
+                                        <ul style="font-size:14px">
+                                            <li>Solicitar reservas de tours, actividades y paquetes turísticos.</li>
+                                            <li>Recibir ofertas para los lugares que quieres conocer</li>
+                                            <li>Participar en los sorteos de viajes</li>
+                                            <li>Marcar y comentar los lugares que conoces</li>
+                                            <li>Marcar y compartir con tus amigos los lugares que quieres conocer</li>
+                                        </ul>
+                                    </div>
+                                </div>                                                                
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                            <div class="container">
+                                <form id="form-agencia" enctype="multipart/form-data">
+                                    <input type="hidden" name="idtipo_usuario" value="2" />
+                                    <h5>Datos del representante legal:</h5><hr />
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label>Dni</label>
+                                            <input type="text" class="form-control" name="dni" minlength="8" maxlength="8" pattern="[0-9]{8}" title="El dni solo puede consistir en numeros de 8 digitos." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Nombres</label>
+                                            <input type="text" class="form-control" name="nombres_rep" minlength="3" maxlength="40" pattern="[A-Za-z ]{3,40}" title="El nombre solo puede consistir en alfabético mayor a 3 caractéres." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Apellidos</label>
+                                            <input type="text" class="form-control" name="apellidos_rep" minlength="3" maxlength="40" pattern="[A-Za-z ]{3,40}" title="El apellido solo puede consistir en alfabético mayor a 3 caractéres." required />
+                                        </div>
+                                    </div><br />
+                                    <h5>Datos de acceso a Comany Name:</h5><hr />
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label>Correo electrónico</label>
+                                            <input type="email" class="form-control" name="correo" required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Clave</label>
+                                            <input type="password" class="form-control" id="clave-agencia" name="clave" minlength="6" pattern="[A-Za-z0-9]{6,}" title="Mínimo 6 dígitos entre números o letras." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Confirmar Clave</label>
+                                            <input type="password" class="form-control" id="confirma-clave-agencia" name="confirma-clave" minlength="6" pattern="[A-Za-z0-9]{6,}" title="Mínimo 6 dígitos entre números o letras." required />
+                                        </div>
+                                    </div><br />
+                                    <h5>Datos de la empresa:</h5><hr />
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label>Razón Social</label>
+                                            <input type="text" class="form-control" name="razonSocial_emp" minlength="3" maxlength="100" pattern="[A-Za-z ]{3,100}" title="La razón social debe tener más de 3 y menos de 100 caractéres de largo." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Nombre Comercial</label>
+                                            <input type="text" class="form-control" name="nombreComercial_emp" minlength="3" maxlength="100" pattern="[A-Za-z ]{3,100}" title="El nombre comercial debe tener más de 3 y menos de 100 caractéres de largo." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>RUC</label>
+                                            <input type="text" class="form-control" name="ruc_emp" minlength="11" maxlength="11" pattern="[0-9]{11}" title="El ruc solo puede consistir en numeros de 11 digitos." required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label>Teléfonos</label>
+                                            <input type="text" class="form-control" name="telefonos_emp" minlength="7" maxlength="9" pattern="[0-9]{7,11}" title="El telefono solo puede consistir en numeros de entre 7 y 9 digitos." required />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Página web (opcional)</label>
+                                            <input type="text" class="form-control" name="paginaWeb_emp" minlength="10" maxlength="200" pattern="[a-z]{3}[.]([a-z0-9]{1,150})[.][a-z]{2,6}" title="Ingrese una página válida. Ejemplo: www.turismoi.pe" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label>Dirección</label>
+                                            <input type="text" class="form-control" name="direccion_emp" minlength="5" maxlength="200" pattern="[a-zA-Z0-9.- ]{5,200}" title="La direccion solo puede consistir en alfabético y número" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4">
+                                            <label>Region</label>
+                                            <select class="form-control" name="idregion" required>
+                                                <option value="1">Amazonas</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label for="exampleFormControlFile1">Logo</label>
+                                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="logo" required>
+                                        </div>
+                                    </div><br />
+                                    <div class="alert alert-primary" role="alert">
+                                        Antes de registrarte, ten en cuenta que...
+                                        <ol style="font-size:14px">
+                                            <li value="1">Company name no es una agencia de viajes ni operador, es un Canal de Ventas Online.</li>
+                                            <li>Puedes publicar anuncios ilimitados de tus servicios (tours y actividades).</li>
+                                            <li>No hay pagos previos ni mensuales. Solo comisión por venta (20%).</li>
+                                            <li>
+                                                El viajero compra tu anuncio en línea, recaudamos el pago y te lo reembolsamos (menos la Comisión):
+                                                <ul>
+                                                    <li>Ventas del 1 al 14 - Se pagan el 21 del mes.</li>
+                                                    <li>Ventas del 15 al 30 - Se pagan el 07 del siguiente mes.</li>
+                                                </ul>
+                                            </li>
+                                            <li>Solo tú controlas la disponibilidad de tus anuncios publicados.</li>
+                                        </ol>
+                                    </div>
+                                    <div class="alert alert-success" role="alert" align="center" id="alert-success-agencia" style="display:none">
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" align="center" id="alert-danger-agencia" style="display:none">
+                                    </div>
+                                    <hr />
+                                    <div class="form-group row">
+                                        <div class="col-md-12" align="right">
+                                            <input class="btn btn-default" type="reset" id="btn-cerrar-agencia" value="Cerrar" />
+                                            <input class="btn btn-primary" type="submit" value="Guardar cambios" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btn-guardar">Guardar cambios</button>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <!-- Termina Modal Registro de usuarios-->
+
+    <!--Modal Inicio de usuario-->
+    <div class="modal fade" id="modal-inicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Iniciar sesión</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="form-ingresar">
+                            <div class="form-group">
+                                <label>Correo electrónico</label>
+                                <input type="email" class="form-control" name="correo" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Clave</label>
+                                <input type="password" class="form-control" name="clave" required />
+                            </div>
+                            <div class="alert alert-danger" role="alert" align="center" id="alert-danger-login" style="display:none">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12" align="center">
+                                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary" id="btn-ingresar">Ingresar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Termina Modal Inicio de usuarios-->
+</body>
+</html>

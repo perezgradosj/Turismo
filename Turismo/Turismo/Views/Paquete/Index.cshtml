@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "Paquetes Turísticos";
+}
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-3" style="padding: 23px;">
+            @*<h7>¿En que fechas viajas?</h7>
+                <hr />
+                <form>
+                    <div class="form-group">
+                        <label>Desde:</label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Hasta:</label>
+                        <input type="date" class="form-control" />
+                    </div>
+                    <input type="submit" class="btn btn-success btn-block" value="Filtrar" />
+                </form>
+                <hr />*@
+            <h7>FILTRAR PAQUETES POR:</h7>
+            <hr />
+            <label>Región</label>
+            <select class="form-control" id="select-región"></select>
+            <hr />
+            <label>Precio</label>
+            <select class="form-control" id="select-precio">
+                <option selected>Seleccione un rango de precio</option>
+                <option value="150">Hasta S/. 150</option>
+                <option value="150-300">De S/. 150 a S/. 300</option>
+                <option value="300-500">De S/. 300 a S/. 500</option>
+                <option value="500-1000">De S/. 500 a S/. 1000</option>
+            </select>
+            <hr />
+            <label>Categoría</label>
+            <select class="form-control" id="select-categoria">
+                <option selected>Seleccione una categoría</option>
+                <option value="categoria1">Categoria 1</option>
+                <option value="categoria2">Categoria 2</option>
+            </select>
+            <hr />
+            <label>Seguridad</label>
+            <select class="form-control" id="select-seguridad">
+                <option selected>Seleccione nivel de seguridad </option>
+                <option value="seguridad1">Seguridad 1</option>
+                <option value="seguridad2">Seguridad 2</option>
+            </select>
+        </div>
+        <div class="col-lg-9">
+            <br />
+            <div class="row" id="div-paquetes">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detalle de Paquete turístico -->
+<div class="modal fade" id="DetallePaqueteModal" tabindex="-1" role="dialog" aria-labelledby="DetallePaqueteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DetallePaqueteModalLabel">Detalle de paquete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="" class='img-thumbnail rounded mx-auto d-block' id="idfoto1" />
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="" class='img-thumbnail rounded mx-auto d-block' id="idfoto2" style="width:100px;height:80px;" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img src="" class='img-thumbnail rounded mx-auto d-block' id="idfoto3" style="width:100px;height:80px;" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img src="" class='img-thumbnail rounded mx-auto d-block' id="idfoto4" style="width:100px;height:80px;" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img src="" class='img-thumbnail rounded mx-auto d-block' id="idfoto5" style="width:100px;height:80px;" />
+                                </div>
+                            </div>
+                            <center><h4 id="idtitulo"></h4></center>
+                            <div class="row">
+                                <label>Región: <span id="idregion"></span></label>
+                            </div>
+                            <div class="row">
+                                <label>Duración: <span id="idduracion"></span></label>
+                            </div>
+                            <div class="row">
+                                <label>Pasajeros mínimo: <span id="idpasajeros"></span></label>
+                            </div>
+                            <div class="row">
+                                <label>Tiempo anticipado de compra: <span id="idanticipado"></span></label>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <h5>Itinerario</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm" id="iditinerarios">
+                                        <thead>
+                                            <tr style="text-align:center">
+                                                <td>Día</td>
+                                                <td>Descripción</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <h5>Alojamiento y alimentación</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-sm" id="idalimentacion">
+                                        <thead>
+                                            <tr style="text-align:center">
+                                                <td>Día</td>
+                                                <td>Alojamiento</td>
+                                                <td>Alimentación</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="col-md-4">
+                            <h4 style="background: black;color: white;padding: 10px;text-align: center;">S/. <span id="idprecio"></span> por persona</h4>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Selecciona tu país o residencia</label>
+                                    <select class="form-control"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>N° Pasajeros adultos</label>
+                                    <select class="form-control"></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>N° Pasajeros niños</label>
+                                    <select class="form-control"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Fecha de inicio del tour</label>
+                                    <input type="date" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger">COMPRAR PAQUETE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/js/ListPaquetes.js"></script>
+}

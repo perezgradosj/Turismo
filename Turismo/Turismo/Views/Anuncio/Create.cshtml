@@ -1,0 +1,217 @@
+﻿
+@{
+    ViewBag.Title = "Crear nuevo anuncio";
+}
+
+<div class="container">
+    <h2 style="text-align:center">CREAR ANUNCIO </h2>
+    <form id="form-anuncioCreate" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Datos generales</legend>
+            <label class="col-form-label col-form-label-sm">Vigencia:</label>
+            <div class="form-group row">
+                <div class="input-group input-group-sm mb-3 col-sm-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Desde</span>
+                    </div>
+                    <input type="date" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="input-desde" name="fecha_public_desde" required>
+                </div>
+                <div class="input-group input-group-sm mb-3 col-sm-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Hasta</span>
+                    </div>
+                    <input type="date" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="input-hasta" name="fecha_public_hasta" required disabled>
+                </div>
+            </div>
+            <small id="emailHelp" class="form-text text-muted" style="margin-top: -30px;">Esta sera la fecha de publicación de su anuncio visible para los turistas.</small>
+            <br />
+            <label class="col-form-label col-form-label-sm">Duración:</label>
+            <div class="form-group row">
+                <div class="input-group input-group-sm mb-3 col-sm-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Dias</span>
+                    </div>
+                    <select id="select-dias" name="dias" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                        @for (int i = 1; i <= 30; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-group input-group-sm mb-3 col-sm-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Noches</span>
+                    </div>
+                    <select id="select-noches" name="noches" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class=" col-sm-4">
+                    <label class="col-form-label col-form-label-sm">Cantidad de pasajes disponibles</label>
+                    <select class="form-control form-control-sm" aria-describedby="pasajerosXdiaHelp" name="disponibles" required>
+                        @for (int i = 1; i <= 30; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class=" col-sm-4">
+                    <label class="col-form-label col-form-label-sm">Nro. mínimo de pasajeros por una compra</label>
+                    <select class="form-control form-control-sm" aria-describedby="inputGroup-sizing-default" name="minPasajeros" required>
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-form-label col-form-label-sm">Tiempo de anticipación de compra (Horas)</label>
+                    <select class="form-control form-control-sm" name="horasAnticipado" required>
+                        @for (int i = 1; i <= 96; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <label class="col-form-label col-form-label-sm">Título del paquete</label>
+                    <input type="text" class="form-control form-control-sm" minlength="10" maxlength="100" name="titulo" required />
+                </div>
+                <div class="col-sm-4">
+                    <label class="col-form-label col-form-label-sm">Destino</label>
+                    <select class="form-control form-control-sm" id="select-destino" name="destino" required>
+                        <option selected></option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Itinerario</legend>
+            <small class="form-text text-muted">En la casilla descripción, si desea tener un orden entre sus actividades debera separar por * </small>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Día</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Alojamiento</th>
+                            <th>Alimentación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body-itinerario">
+                        <tr class="tr1">
+                            <td><input type="text" readonly class="form-control-plaintext" value="1" name="itiDia" style="width:20px" /></td>
+                            <td><input type="text" class="form-control form-control-sm" placeholder="Ingrese título para día 1" name="itiTitulo" required /></td>
+                            <td><textarea class="form-control form-control-sm" placeholder="* Ejemplo: Actividad 1" name="itiDescripcion" required></textarea></td>
+                            <td><select class="form-control form-control-sm select-alojamiento" name="itiAlojamiento" required></select></td>
+                            <td>
+                                <select class="form-control form-control-sm select-alimentacion" name="itiAlimentacion" required>
+                                    <option value="Incluir desayuno">Incluir desayuno</option>
+                                    <option value="Incluir desayuno, almuerzo y cena">Incluir desayuno, almuerzo y cena</option>
+                                    <option value="No incluir ninguno">No incluir ninguno</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Categoría y seguridad</legend>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="col-form-label col-form-label-sm">Seleccione categoria</label>
+                    <select class="form-control form-control-sm" name="categoria">
+                        <option value="categoria1">Categoria 1</option>
+                        <option value="categoria2">Categoria 2</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-form-label col-form-label-sm">Seleccione seguridad</label>
+                    <select class="form-control form-control-sm" name="seguridad">
+                        <option value="seguridad1">Seguridad 1</option>
+                        <option value="seguridad2">Seguridad 2</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Precio</legend>
+            <p style="font-size: 12px;">
+                Precio en nuevos soles,
+                <b>incluir solo enteros</b> (El precio del tour o paquete publicado debe ser el monto final
+                que el cliente pagará por este servicio. El viajero podrá solicitar un comprobante de pago por dicho pago.
+                No es permitido solicitar al cliente, adicionalmente, el pago de impuestos, cuotas, comisiones o cualquier
+                otro importe para cubrir otro gasto para la ejecución de este servicio.)
+            </p>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="col-form-label col-form-label-sm">Precio por Persona en Habitación Doble o Triple</label>
+                    <input type="number" class="form-control form-control-sm" placeholder="S/." name="precioHabDobleTripe" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="col-form-label col-form-label-sm">Precio por Persona en Habitación Simple</label>
+                    <input type="number" class="form-control form-control-sm" placeholder="S/." name="precioHabSimple" required />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Fotos</legend>
+            <div class="alert alert-info" role="alert" style="font-size: 12px;">
+                <h7>Ten en cuenta las siguientes indicaciones:</h7>
+                <ul>
+                    <li>Debes subir 6 fotos que reflejen la experiencia del tour.</li>
+                    <li>Recuerda subir fotos propiamente originales</li>
+                </ul>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile" class="col-form-label col-form-label-sm">Foto 1</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile" name="foto1" accept="image/png, image/jpeg" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile2" class="col-form-label col-form-label-sm">Foto 2</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile2" name="foto2" accept="image/png, image/jpeg" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile3" class="col-form-label col-form-label-sm">Foto 3</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile3" name="foto3" accept="image/png, image/jpeg" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile4" class="col-form-label col-form-label-sm">Foto 4</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile4" name="foto4" accept="image/png, image/jpeg" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile5" class="col-form-label col-form-label-sm">Foto 5</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile5" name="foto5" accept="image/png, image/jpeg" required>
+                </div>
+                <div class="col-sm-4">
+                    <label for="exampleFormControlFile6" class="col-form-label col-form-label-sm">Foto 6</label>
+                    <input type="file" class="form-control-file form-control-sm" id="exampleFormControlFile6" name="foto6" accept="image/png, image/jpeg" required>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+            <div class="col-md-12" align="center">
+                <div class="alert alert-success" role="alert" id="alert-success" style="display:none"></div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12" align="center">
+                <button class="btn btn btn-outline-success btn-lg" id="btn-terminar">Terminar y Guardar</button>
+                <button type="reset" class="btn btn-light btn-lg" id="btn-limpiar">Limpiar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
